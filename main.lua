@@ -1,7 +1,11 @@
+local life = require("life")
 local WINDOW_WIDTH = 1280
 local WINDOW_HEIGHT = 720
+local dim = 40
 
 function love.load()
+    life.init(dim)
+    life.start()
     love.graphics.setFont(love.graphics.setNewFont(16))
     love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = false,
