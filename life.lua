@@ -1,15 +1,15 @@
-local matrix = {}
+local board = {}
 
-matrix.init = function(dim)
+board.init = function(dim)
     for i=1, dim+1 do
-        matrix[i] = {}
+        board[i] = {}
         for j=1, dim+1 do
-            matrix[i][j]=false
+            board[i][j]=false
         end
     end
 end
 
-matrix.start = function ()
+board.start = function ()
     os.execute("clear")
     local x,y,nc;
     print("Enter the number of cells to make alive: ")
@@ -18,18 +18,18 @@ matrix.start = function ()
         print("Enter the coordinates of cell" .. i+1 .. " : ")
         x =io.read("*n")
         y =io.read("*n")
-        matrix[x+1][y+1] = true
+        board[x+1][y+1] = true
         os.execute("clear")
     end
 end
 
-matrix.iterate = function(dim)
+board.iterate = function(dim)
 
-    local matrix_2 = {}
+    local board_2 = {}
     for i = 1,dim+1 do
-        matrix_2[i] = {}
+        board_2[i] = {}
         for j = 1,dim+1 do
-            matrix_2[i][j] = matrix[i][j]
+            board_2[i][j] = board[i][j]
         end
     end
 
@@ -40,7 +40,7 @@ matrix.iterate = function(dim)
             for c=-1,1 do
                 for d=-1,1 do
                     if not (c==0 and d==0) then
-                        if matrix_2[a+c][b+d]==true then
+                        if board_2[a+c][b+d]==true then
                             alive = alive+1
                         end
                     end
@@ -48,13 +48,13 @@ matrix.iterate = function(dim)
             end
 
             if alive < 2 then
-                matrix[a][b] = false
+                board[a][b] = false
             elseif alive == 3 then
-                matrix[a][b] = true
+                board[a][b] = true
             elseif alive > 3 then
-                matrix[a][b] = false
+                board[a][b] = false
             end
         end
     end
 end
-return matrix
+return board
