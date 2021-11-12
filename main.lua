@@ -26,6 +26,9 @@ function love.keypressed(key)
     if key == 'p' then
         run = not run
     end
+    if key == 'r' then
+        life.init(dim)
+    end
 end
 
 local dttotal = 0
