@@ -6,6 +6,8 @@ local WINDOW_HEIGHT = 720
 local block_size = 40
 local dim = math.floor(WINDOW_WIDTH / block_size)
 
+local generation = 0
+
 local run = false
 
 function love.load()
@@ -37,6 +39,7 @@ function love.update(dt)
     if run == true then
         if dttotal > 0.3 then
             life.iterate(dim)
+            generation = generation + 1
             dttotal=0
         end
     end
@@ -44,10 +47,11 @@ end
 
 function love.draw()
     love.graphics.clear(8/255, 8/255, 8/255, 255/255)
-    love.graphics.printf('Game of Life!',4, 0, WINDOW_WIDTH, 'left')
-    love.graphics.printf('(P) Play/Pause',4, 18, WINDOW_WIDTH, 'left')
-    love.graphics.printf('(R) Reset',4, 38, WINDOW_WIDTH, 'left')
-    love.graphics.printf('(Q) Quit',4,56, WINDOW_WIDTH, 'left')
+    love.graphics.printf('Game of Life!', 4, 0, WINDOW_WIDTH, 'left')
+    love.graphics.printf('Generation: ' .. generation, 4, 700, WINDOW_WIDTH, 'left')
+    love.graphics.printf('(P) Play/Pause', 4, 20, WINDOW_WIDTH, 'left')
+    love.graphics.printf('(R) Reset', 4, 40, WINDOW_WIDTH, 'left')
+    love.graphics.printf('(Q) Quit', 4, 60, WINDOW_WIDTH, 'left')
 
     for y=1, #life do
         for x=1, #life[y] do
