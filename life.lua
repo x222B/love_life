@@ -9,18 +9,12 @@ board.init = function(dim)
     end
 end
 
-board.start = function ()
-    os.execute("clear")
-    local x,y,nc;
-    print("Enter the number of cells to make alive: ")
-     nc = io.read("*n")
-    for i=1,nc do
-        print("Enter the coordinates of cell" .. i+1 .. " : ")
-        x =io.read("*n")
-        y =io.read("*n")
-        board[x+1][y+1] = true
-        os.execute("clear")
-    end
+board.testFill = function ()
+    board[2+1][2+1]=true
+    board[3+1][3+1]=true
+    board[1+1][4+1]=true
+    board[2+1][4+1]=true
+    board[3+1][4+1]=true
 end
 
 board.iterate = function(dim)
@@ -57,4 +51,5 @@ board.iterate = function(dim)
         end
     end
 end
+
 return board
