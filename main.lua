@@ -4,7 +4,8 @@ local WINDOW_WIDTH = 1280
 local WINDOW_HEIGHT = 720
 
 local block_size = 40
-local dim = math.floor(WINDOW_WIDTH / block_size)
+local dimY = math.floor(WINDOW_WIDTH / block_size)
+local dimX = math.floor(WINDOW_HEIGHT / block_size)
 
 local generation = 0
 
@@ -12,7 +13,7 @@ local running = true
 local speed = 1
 
 function love.load()
-    life.init(dim)
+    life.init(dimX,dimY)
     life.testFill()
     love.graphics.setFont(love.graphics.setNewFont(16))
     love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -30,7 +31,7 @@ function love.keypressed(key)
         running = not running
     end
     if key == 'r' then
-        life.init(dim)
+        life.init(dimX,dimY)
         generation = 0
     end
     if key == 'j' then
@@ -50,7 +51,7 @@ function love.update(dt)
     dttotal = dttotal+dt
     if running == true then
         if dttotal > speed then
-            life.iterate(dim)
+            life.iterate(dimX,dimY)
             generation = generation + 1
             dttotal=0
         end
@@ -63,7 +64,7 @@ function love.draw()
     love.graphics.printf('(P) Play/Pause', 4, 20, WINDOW_WIDTH, 'left')
     love.graphics.printf('(R) Reset', 4, 40, WINDOW_WIDTH, 'left')
     love.graphics.printf('(Q) Quit', 4, 60, WINDOW_WIDTH, 'left')
-    love.graphics.printf('(J/K) Speed Up/Down', 4, 660, WINDOW_WIDTH, 'left')
+    love.graphics.printf('(K/J) Speed Up/Down', 4, 660, WINDOW_WIDTH, 'left')
     love.graphics.printf('Speed: ' .. 1/speed .. ' generations / sec', 4, 680, WINDOW_WIDTH, 'left')
     love.graphics.printf('Generation: ' .. generation, 4, 700, WINDOW_WIDTH, 'left')
 

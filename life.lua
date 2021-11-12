@@ -1,15 +1,19 @@
 local board = {}
 
-board.init = function(dim)
-    for i=1, dim+1 do
+board.init = function(dimX,dimY)
+    for i=1, dimX+1 do
         board[i] = {}
-        for j=1, dim+1 do
+        for j=1, dimY+1 do
             board[i][j]=false
         end
     end
 end
 
 board.testFill = function ()
+    --board[2+1][2+1]=true
+    --board[2+1][3+1]=true
+    --board[2+1][4+1]=true
+
     board[2+1][2+1]=true
     board[3+1][3+1]=true
     board[1+1][4+1]=true
@@ -17,18 +21,18 @@ board.testFill = function ()
     board[3+1][4+1]=true
 end
 
-board.iterate = function(dim)
+board.iterate = function(dimX,dimY)
 
     local board_2 = {}
-    for i = 1,dim+1 do
+    for i = 1,dimX+1 do
         board_2[i] = {}
-        for j = 1,dim+1 do
+        for j = 1,dimY+1 do
             board_2[i][j] = board[i][j]
         end
     end
 
-    for a = 2,dim do
-        for b = 2,dim do
+    for a = 2,dimX do
+        for b = 2,dimY do
 
             local alive = 0
             for c=-1,1 do
