@@ -1,4 +1,4 @@
-local life = require("life")
+local board = require("board")
 
 local WINDOW_WIDTH = 1280
 local WINDOW_HEIGHT = 720
@@ -9,12 +9,21 @@ local dimX = math.floor(WINDOW_HEIGHT / block_size)
 
 local generation = 0
 
-local running = true
+local running = false
 local speed = 1
 
+local mouseX = -1
+local mouseY = -1
+
+function love.mousepressed(x, y)
+    running = false
+    mouseX = math.floor(x / block_size)+1
+    mouseY = math.floor(y / block_size)+1
+    board[mouseY][mouseX] = not board[mouseY][mouseX]
+end
+
 function love.load()
-    life.init(dimX,dimY)
-    life.testFill()
+    board.init(dimX,dimY)
     love.graphics.setFont(love.graphics.setNewFont(16))
     love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = false,
@@ -31,7 +40,7 @@ function love.keypressed(key)
         running = not running
     end
     if key == 'r' then
-        life.init(dimX,dimY)
+        board.init(dimX,dimY)
         generation = 0
     end
     if key == 'j' then
@@ -51,7 +60,7 @@ function love.update(dt)
     dttotal = dttotal+dt
     if running == true then
         if dttotal > speed then
-            life.iterate(dimX,dimY)
+            board.iterate(dimX,dimY)
             generation = generation + 1
             dttotal=0
         end
@@ -60,20 +69,22 @@ end
 
 function love.draw()
     love.graphics.clear(8/255, 8/255, 8/255, 255/255)
+
     love.graphics.printf('Game of Life!', 4, 0, WINDOW_WIDTH, 'left')
     love.graphics.printf('(P) Play/Pause', 4, 20, WINDOW_WIDTH, 'left')
     love.graphics.printf('(R) Reset', 4, 40, WINDOW_WIDTH, 'left')
     love.graphics.printf('(Q) Quit', 4, 60, WINDOW_WIDTH, 'left')
+
     love.graphics.printf('(K/J) Speed Up/Down', 4, 660, WINDOW_WIDTH, 'left')
     love.graphics.printf('Speed: ' .. 1/speed .. ' generations / sec', 4, 680, WINDOW_WIDTH, 'left')
     love.graphics.printf('Generation: ' .. generation, 4, 700, WINDOW_WIDTH, 'left')
 
-    for y=1, #life do
-        for x=1, #life[y] do
-            if life[y][x] == true then
-                love.graphics.rectangle("fill", (x-1)*40, (y-1)*40, 40, 40)
+    for y=1, #board do
+        for x=1, #board[y] do
+            if board[y][x] == true then
+                love.graphics.rectangle("fill", (x-1)*block_size, (y-1)*block_size, block_size, block_size)
             else
-                love.graphics.rectangle("line", (x-1)*40, (y-1)*40, 40, 40)
+                love.graphics.rectangle("line", (x-1)*block_size, (y-1)*block_size, block_size, block_size)
             end
         end
     end
