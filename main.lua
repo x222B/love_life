@@ -8,7 +8,8 @@ local dim = math.floor(WINDOW_WIDTH / block_size)
 
 local generation = 0
 
-local run = false
+local running = true
+local speed = 1
 
 function love.load()
     life.init(dim)
@@ -17,7 +18,7 @@ function love.load()
     love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = false,
         resizable = false,
-        vsync = true,
+        vsync = false,
     })
 end
 
@@ -26,18 +27,29 @@ function love.keypressed(key)
         love.event.quit()
     end
     if key == 'p' then
-        run = not run
+        running = not running
     end
     if key == 'r' then
         life.init(dim)
+        generation = 0
+    end
+    if key == 'j' then
+        if speed <= 1 then
+            speed = speed * 10
+        end
+    end
+    if key == 'k' then
+        if speed >= 0.01 then
+            speed = speed * 0.1
+        end
     end
 end
 
 local dttotal = 0
 function love.update(dt)
     dttotal = dttotal+dt
-    if run == true then
-        if dttotal > 0.3 then
+    if running == true then
+        if dttotal > speed then
             life.iterate(dim)
             generation = generation + 1
             dttotal=0
@@ -48,10 +60,12 @@ end
 function love.draw()
     love.graphics.clear(8/255, 8/255, 8/255, 255/255)
     love.graphics.printf('Game of Life!', 4, 0, WINDOW_WIDTH, 'left')
-    love.graphics.printf('Generation: ' .. generation, 4, 700, WINDOW_WIDTH, 'left')
     love.graphics.printf('(P) Play/Pause', 4, 20, WINDOW_WIDTH, 'left')
     love.graphics.printf('(R) Reset', 4, 40, WINDOW_WIDTH, 'left')
     love.graphics.printf('(Q) Quit', 4, 60, WINDOW_WIDTH, 'left')
+    love.graphics.printf('(J/K) Speed Up/Down', 4, 660, WINDOW_WIDTH, 'left')
+    love.graphics.printf('Speed: ' .. 1/speed .. ' generations / sec', 4, 680, WINDOW_WIDTH, 'left')
+    love.graphics.printf('Generation: ' .. generation, 4, 700, WINDOW_WIDTH, 'left')
 
     for y=1, #life do
         for x=1, #life[y] do
