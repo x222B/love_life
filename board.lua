@@ -9,18 +9,6 @@ board.init = function(dimX,dimY)
     end
 end
 
-board.testFill = function ()
-    --board[2+1][2+1]=true
-    --board[2+1][3+1]=true
-    --board[2+1][4+1]=true
-
-    board[2+1][2+1]=true
-    board[3+1][3+1]=true
-    board[1+1][4+1]=true
-    board[2+1][4+1]=true
-    board[3+1][4+1]=true
-end
-
 board.iterate = function(dimX,dimY)
 
     local board_2 = {}
